@@ -35,7 +35,6 @@ class NewsController extends Controller
 
     public function update(UpdateRequest $request, $id){
         $data = $request->validated();
-        // dd($request->all());
         $data['user'] = $request->user();
         return new GeneralResource(true, 'News updated!', $this->newsRepository->update($id, $data));
     }
