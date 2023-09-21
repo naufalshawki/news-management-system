@@ -45,7 +45,7 @@ class NewsRepository implements NewsRepositoryInterface
         DB::beginTransaction();
         try {
             $checkExists = News::findOrFail($id);
-            if($input['image']) {
+            if(isset($input['image'])) {
                 $file = $input['image'];
                 // Generate a unique name for the file
                 $fileName = uniqid() . '.' . $file->getClientOriginalExtension();
@@ -53,10 +53,10 @@ class NewsRepository implements NewsRepositoryInterface
                 $file->storeAs('news', $fileName);
                 $checkExists->image = $fileName;
             }
-            if($input['title']) {
+            if(isset($input['title'])) {
                 $checkExists->title = $input['title'];
             }
-            if($input['content']) {
+            if(isset($input['content'])) {
                 $checkExists->content = $input['content'];
             }
             $checkExists->save();
@@ -67,7 +67,7 @@ class NewsRepository implements NewsRepositoryInterface
             return $checkExists;
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e);
+            throw $e;
         }
     }
 
